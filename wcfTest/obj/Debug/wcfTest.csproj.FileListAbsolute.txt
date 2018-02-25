@@ -1,0 +1,15 @@
+D:\personal\Cconvert\wcfTest\obj\Debug\wcfTest.csprojResolveAssemblyReference.cache
+D:\personal\Cconvert\wcfTest\bin\Debug\ApplicationInsights.config
+D:\personal\Cconvert\wcfTest\bin\Debug\wcfTest.dll
+D:\personal\Cconvert\wcfTest\bin\Debug\wcfTest.pdb
+D:\personal\Cconvert\wcfTest\bin\Debug\Cconvert.dll
+D:\personal\Cconvert\wcfTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\personal\Cconvert\wcfTest\bin\Debug\EntityFramework.dll
+D:\personal\Cconvert\wcfTest\bin\Debug\SimpleCrypto.dll
+D:\personal\Cconvert\wcfTest\bin\Debug\Cconvert.pdb
+D:\personal\Cconvert\wcfTest\bin\Debug\EntityFramework.xml
+D:\personal\Cconvert\wcfTest\obj\Debug\wcfTest.dll
+D:\personal\Cconvert\wcfTest\obj\Debug\wcfTest.pdb
+D:\personal\Cconvert\wcfTest\bin\Debug\wcfTest.dll.config
+D:\personal\Cconvert\wcfTest\bin\Debug\EntityFramework.SqlServer.dll
+D:\personal\Cconvert\wcfTest\bin\Debug\EntityFramework.SqlServer.xml
