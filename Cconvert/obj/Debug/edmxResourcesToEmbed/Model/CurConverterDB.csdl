@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="cconverterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="cconverterEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="disablesource">
+      <Parameter Name="sourcetodisable" Mode="In" Type="Int64" />
+      <Parameter Name="accesskey" Mode="In" Type="String" />
+      <Parameter Name="status" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="GetSourceList" ReturnType="Collection(cconverterModel.GetSourceList_Result)">
+      <Parameter Name="accesskey" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="LoginUser" ReturnType="Collection(cconverterModel.LoginUser_Result)">
+      <Parameter Name="user_id" Mode="In" Type="String" />
+      <Parameter Name="pass" Mode="In" Type="String" />
+      <Parameter Name="token" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="uspRandChars">
+      <Parameter Name="len" Mode="In" Type="Int32" />
+      <Parameter Name="min" Mode="In" Type="Byte" />
+      <Parameter Name="range" Mode="In" Type="Byte" />
+      <Parameter Name="exclude" Mode="In" Type="String" />
+      <Parameter Name="output" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="sourcemasters" EntityType="cconverterModel.sourcemaster" />
+    <EntitySet Name="logindetails" EntityType="cconverterModel.logindetail" />
+    <EntitySet Name="CurRates" EntityType="cconverterModel.CurRate" />
+    <FunctionImport Name="GetCurrencyRate" ReturnType="Collection(cconverterModel.GetCurrencyRate_Result)">
+      <Parameter Name="fromCurr" Mode="In" Type="String" />
+      <Parameter Name="toCurr" Mode="In" Type="String" />
+      <Parameter Name="sourceid" Mode="In" Type="Int64" />
+      <Parameter Name="accesskey" Mode="In" Type="String" />
+      <Parameter Name="status" Mode="InOut" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="GetSourceList_Result">
+    <Property Type="Int64" Name="id" Nullable="false" />
+    <Property Type="String" Name="userid" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="passcode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sourcename" Nullable="false" MaxLength="50" />
+    <Property Type="Boolean" Name="active" Nullable="false" />
+    <Property Type="Boolean" Name="isAdmin" Nullable="false" />
+    <Property Type="Boolean" Name="loginrequired" Nullable="false" />
+    <Property Type="DateTime" Name="createddate" Nullable="false" />
+    <Property Type="String" Name="IPAddress" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="passwordsalt" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="LoginUser_Result">
+    <Property Type="Int64" Name="id" Nullable="false" />
+    <Property Type="String" Name="userid" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="passcode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="sourcename" Nullable="false" MaxLength="50" />
+    <Property Type="Boolean" Name="active" Nullable="false" />
+    <Property Type="Boolean" Name="isAdmin" Nullable="false" />
+    <Property Type="Boolean" Name="loginrequired" Nullable="false" />
+    <Property Type="DateTime" Name="createddate" Nullable="false" />
+    <Property Type="String" Name="IPAddress" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="passwordsalt" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <EntityType Name="sourcemaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="passcode" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="sourcename" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="active" Type="Boolean" Nullable="false" />
+    <Property Name="isAdmin" Type="Boolean" Nullable="false" />
+    <Property Name="loginrequired" Type="Boolean" Nullable="false" />
+    <Property Name="createddate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="passwordsalt" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="accesskey" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="logindetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="sourceid" Type="Int64" />
+    <Property Name="token" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="logindatetime" Type="DateTime" Precision="3" />
+    <Property Name="isactive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="CurRate">
+    <Key>
+      <PropertyRef Name="CurId" />
+    </Key>
+    <Property Name="CurId" Type="Int64" Nullable="false" />
+    <Property Name="fromC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="toC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="rate" Type="Double" />
+  </EntityType>
+  <ComplexType Name="GetCurrencyRate_Result">
+    <Property Type="Int64" Name="CurId" Nullable="false" />
+    <Property Type="String" Name="fromC" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="toC" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="rate" Nullable="true" />
+  </ComplexType>
+</Schema>

@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="cconverterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CurRate">
+          <Key>
+            <PropertyRef Name="CurId" />
+          </Key>
+          <Property Name="CurId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fromC" Type="varchar" MaxLength="50" />
+          <Property Name="toC" Type="varchar" MaxLength="50" />
+          <Property Name="rate" Type="float" />
+        </EntityType>
+        <EntityType Name="logindetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sourceid" Type="bigint" />
+          <Property Name="token" Type="nvarchar" MaxLength="500" />
+          <Property Name="logindatetime" Type="datetime" />
+          <Property Name="isactive" Type="bit" />
+        </EntityType>
+        <EntityType Name="sourcemaster">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userid" Type="varchar" MaxLength="50" />
+          <Property Name="passcode" Type="nvarchar" MaxLength="500" />
+          <Property Name="sourcename" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="isAdmin" Type="bit" Nullable="false" />
+          <Property Name="loginrequired" Type="bit" Nullable="false" />
+          <Property Name="createddate" Type="date" Nullable="false" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="50" />
+          <Property Name="passwordsalt" Type="nvarchar" MaxLength="500" />
+          <Property Name="accesskey" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <Function Name="disablesource" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="sourcetodisable" Type="bigint" Mode="In" />
+          <Parameter Name="accesskey" Type="varchar" Mode="In" />
+          <Parameter Name="status" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="GetCurrencyRate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fromCurr" Type="varchar" Mode="In" />
+          <Parameter Name="toCurr" Type="varchar" Mode="In" />
+          <Parameter Name="sourceid" Type="bigint" Mode="In" />
+          <Parameter Name="accesskey" Type="nvarchar" Mode="In" />
+          <Parameter Name="status" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="GetSourceList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="accesskey" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="LoginUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="varchar" Mode="In" />
+          <Parameter Name="pass" Type="varchar" Mode="In" />
+          <Parameter Name="token" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="SaveSource" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="source_name" Type="varchar" Mode="In" />
+          <Parameter Name="loginreq" Type="bit" Mode="In" />
+          <Parameter Name="user_id" Type="varchar" Mode="In" />
+          <Parameter Name="is_Admin" Type="bit" Mode="In" />
+          <Parameter Name="create_date" Type="date" Mode="In" />
+          <Parameter Name="ipaddr" Type="varchar" Mode="In" />
+          <Parameter Name="password_salt" Type="nvarchar" Mode="In" />
+          <Parameter Name="passcode" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="cconverterModelStoreContainer">
+          <EntitySet Name="CurRate" EntityType="Self.CurRate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="logindetail" EntityType="Self.logindetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sourcemaster" EntityType="Self.sourcemaster" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="cconverterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="cconverterEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="disablesource">
+            <Parameter Name="sourcetodisable" Mode="In" Type="Int64" />
+            <Parameter Name="accesskey" Mode="In" Type="String" />
+            <Parameter Name="status" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetSourceList" ReturnType="Collection(cconverterModel.GetSourceList_Result)">
+          <Parameter Name="accesskey" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="LoginUser" ReturnType="Collection(cconverterModel.LoginUser_Result)">
+            <Parameter Name="user_id" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+            <Parameter Name="token" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="uspRandChars">
+            <Parameter Name="len" Mode="In" Type="Int32" />
+            <Parameter Name="min" Mode="In" Type="Byte" />
+            <Parameter Name="range" Mode="In" Type="Byte" />
+            <Parameter Name="exclude" Mode="In" Type="String" />
+            <Parameter Name="output" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="sourcemasters" EntityType="cconverterModel.sourcemaster" />
+          <EntitySet Name="logindetails" EntityType="cconverterModel.logindetail" />
+          <EntitySet Name="CurRates" EntityType="cconverterModel.CurRate" />
+          <FunctionImport Name="GetCurrencyRate" ReturnType="Collection(cconverterModel.GetCurrencyRate_Result)">
+            <Parameter Name="fromCurr" Mode="In" Type="String" />
+            <Parameter Name="toCurr" Mode="In" Type="String" />
+            <Parameter Name="sourceid" Mode="In" Type="Int64" />
+            <Parameter Name="accesskey" Mode="In" Type="String" />
+            <Parameter Name="status" Mode="InOut" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetSourceList_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="userid" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="passcode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="sourcename" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="active" Nullable="false" />
+          <Property Type="Boolean" Name="isAdmin" Nullable="false" />
+          <Property Type="Boolean" Name="loginrequired" Nullable="false" />
+          <Property Type="DateTime" Name="createddate" Nullable="false" />
+          <Property Type="String" Name="IPAddress" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="passwordsalt" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="LoginUser_Result">
+          <Property Type="Int64" Name="id" Nullable="false" />
+          <Property Type="String" Name="userid" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="passcode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="sourcename" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="active" Nullable="false" />
+          <Property Type="Boolean" Name="isAdmin" Nullable="false" />
+          <Property Type="Boolean" Name="loginrequired" Nullable="false" />
+          <Property Type="DateTime" Name="createddate" Nullable="false" />
+          <Property Type="String" Name="IPAddress" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="passwordsalt" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <EntityType Name="sourcemaster">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="passcode" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="sourcename" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="isAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="loginrequired" Type="Boolean" Nullable="false" />
+          <Property Name="createddate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="passwordsalt" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="accesskey" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="logindetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sourceid" Type="Int64" />
+          <Property Name="token" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="logindatetime" Type="DateTime" Precision="3" />
+          <Property Name="isactive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="CurRate">
+          <Key>
+            <PropertyRef Name="CurId" />
+          </Key>
+          <Property Name="CurId" Type="Int64" Nullable="false" />
+          <Property Name="fromC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="toC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="rate" Type="Double" />
+        </EntityType>
+        <ComplexType Name="GetCurrencyRate_Result">
+          <Property Type="Int64" Name="CurId" Nullable="false" />
+          <Property Type="String" Name="fromC" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="toC" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="rate" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="cconverterModelStoreContainer" CdmEntityContainer="cconverterEntities">
+          <FunctionImportMapping FunctionImportName="disablesource" FunctionName="cconverterModel.Store.disablesource" />
+          <FunctionImportMapping FunctionImportName="GetSourceList" FunctionName="cconverterModel.Store.GetSourceList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="cconverterModel.GetSourceList_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="passcode" ColumnName="passcode" />
+                <ScalarProperty Name="sourcename" ColumnName="sourcename" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+                <ScalarProperty Name="loginrequired" ColumnName="loginrequired" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="passwordsalt" ColumnName="passwordsalt" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="LoginUser" FunctionName="cconverterModel.Store.LoginUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="cconverterModel.LoginUser_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="passcode" ColumnName="passcode" />
+                <ScalarProperty Name="sourcename" ColumnName="sourcename" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+                <ScalarProperty Name="loginrequired" ColumnName="loginrequired" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="passwordsalt" ColumnName="passwordsalt" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="sourcemasters">
+            <EntityTypeMapping TypeName="cconverterModel.sourcemaster">
+              <MappingFragment StoreEntitySet="sourcemaster">
+                <ScalarProperty Name="accesskey" ColumnName="accesskey" />
+                <ScalarProperty Name="passwordsalt" ColumnName="passwordsalt" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="loginrequired" ColumnName="loginrequired" />
+                <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="sourcename" ColumnName="sourcename" />
+                <ScalarProperty Name="passcode" ColumnName="passcode" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="logindetails">
+            <EntityTypeMapping TypeName="cconverterModel.logindetail">
+              <MappingFragment StoreEntitySet="logindetail">
+                <ScalarProperty Name="isactive" ColumnName="isactive" />
+                <ScalarProperty Name="logindatetime" ColumnName="logindatetime" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="sourceid" ColumnName="sourceid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurRates">
+            <EntityTypeMapping TypeName="cconverterModel.CurRate">
+              <MappingFragment StoreEntitySet="CurRate">
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="toC" ColumnName="toC" />
+                <ScalarProperty Name="fromC" ColumnName="fromC" />
+                <ScalarProperty Name="CurId" ColumnName="CurId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetCurrencyRate" FunctionName="cconverterModel.Store.GetCurrencyRate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="cconverterModel.GetCurrencyRate_Result">
+                <ScalarProperty Name="CurId" ColumnName="CurId" />
+                <ScalarProperty Name="fromC" ColumnName="fromC" />
+                <ScalarProperty Name="toC" ColumnName="toC" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

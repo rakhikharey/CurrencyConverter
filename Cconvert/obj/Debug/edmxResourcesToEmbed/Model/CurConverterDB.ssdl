@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="cconverterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CurRate">
+    <Key>
+      <PropertyRef Name="CurId" />
+    </Key>
+    <Property Name="CurId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fromC" Type="varchar" MaxLength="50" />
+    <Property Name="toC" Type="varchar" MaxLength="50" />
+    <Property Name="rate" Type="float" />
+  </EntityType>
+  <EntityType Name="logindetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="sourceid" Type="bigint" />
+    <Property Name="token" Type="nvarchar" MaxLength="500" />
+    <Property Name="logindatetime" Type="datetime" />
+    <Property Name="isactive" Type="bit" />
+  </EntityType>
+  <EntityType Name="sourcemaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userid" Type="varchar" MaxLength="50" />
+    <Property Name="passcode" Type="nvarchar" MaxLength="500" />
+    <Property Name="sourcename" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="active" Type="bit" Nullable="false" />
+    <Property Name="isAdmin" Type="bit" Nullable="false" />
+    <Property Name="loginrequired" Type="bit" Nullable="false" />
+    <Property Name="createddate" Type="date" Nullable="false" />
+    <Property Name="IPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="passwordsalt" Type="nvarchar" MaxLength="500" />
+    <Property Name="accesskey" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <Function Name="disablesource" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="sourcetodisable" Type="bigint" Mode="In" />
+    <Parameter Name="accesskey" Type="varchar" Mode="In" />
+    <Parameter Name="status" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="GetCurrencyRate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="fromCurr" Type="varchar" Mode="In" />
+    <Parameter Name="toCurr" Type="varchar" Mode="In" />
+    <Parameter Name="sourceid" Type="bigint" Mode="In" />
+    <Parameter Name="accesskey" Type="nvarchar" Mode="In" />
+    <Parameter Name="status" Type="nvarchar" Mode="InOut" />
+  </Function>
+  <Function Name="GetSourceList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="accesskey" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="LoginUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="user_id" Type="varchar" Mode="In" />
+    <Parameter Name="pass" Type="varchar" Mode="In" />
+    <Parameter Name="token" Type="varchar" Mode="InOut" />
+  </Function>
+  <Function Name="SaveSource" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="source_name" Type="varchar" Mode="In" />
+    <Parameter Name="loginreq" Type="bit" Mode="In" />
+    <Parameter Name="user_id" Type="varchar" Mode="In" />
+    <Parameter Name="is_Admin" Type="bit" Mode="In" />
+    <Parameter Name="create_date" Type="date" Mode="In" />
+    <Parameter Name="ipaddr" Type="varchar" Mode="In" />
+    <Parameter Name="password_salt" Type="nvarchar" Mode="In" />
+    <Parameter Name="passcode" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="cconverterModelStoreContainer">
+    <EntitySet Name="CurRate" EntityType="Self.CurRate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="logindetail" EntityType="Self.logindetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sourcemaster" EntityType="Self.sourcemaster" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>
